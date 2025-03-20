@@ -1,50 +1,757 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redpy</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redpy Hacks</title>
     <link rel="icon" href="media/logo.png" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media only screen and (max-width: 768px) {
+        /* Adjust styles here for mobile devices */
+        .faq-section {
+          margin-bottom: 20px; /* Add some space between FAQ and footer */
+        }
+      }
+
+      .faq-section {
+        padding: 10px;
+      }
+
+      /* Add styles for larger screens */
+      @media (min-width: 768px) {
+        .faq-section {
+          padding: 20px;
+        }
+      }
+    </style>
   </head>
-  <body class="bg-gray-100 font-sans antialiased">
-    <!-- Main content -->
-    <div class="container mx-auto p-6">
-      <div class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto">
-        <h1 class="text-2xl font-bold text-center mb-4">
-          Thank You for Choosing One of the Best CS2 Cheats!
-        </h1>
-        <p class="text-center text-lg mb-6">
-          Below, you will find your login credentials. Please keep them secure.
-        </p>
 
-        <!-- Login credentials -->
-        <div class="text-center mb-6">
-          <p class="text-xl font-semibold">
-            Username: <span id="username" class="text-blue-500"></span>
-          </p>
-          <p class="text-xl font-semibold">
-            Password: <span id="password" class="text-blue-500"></span>
-          </p>
-        </div>
-
-        <!-- Button to return to main page -->
-        <div class="mt-6">
-          <p class="text-center text-lg">
-            You can now return to the main page and log in using your
-            credentials. Follow the provided instructions to download and
-            install Redpy.
-          </p>
-          <a
-            href="index.html"
-            class="block text-center mt-4 bg-green-600 text-white py-2 rounded hover:bg-green-500"
+  <body>
+    <header
+      x-data="{ scrollPosition: 0 }"
+      x-init="window.addEventListener('scroll', () => scrollPosition = window.scrollY)"
+      :class="scrollPosition > 50 ? 'bg-white/50 shadow-lg' : 'bg-white/80'"
+      class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg transition-all duration-300"
+    >
+      <div class="px-4">
+        <div class="flex items-center justify-between">
+          <div class="flex shrink-0">
+            <a aria-current="page" class="flex items-center" href="#home">
+              <img class="h-7 w-auto" src="media/logo.png" alt="Redpy Logo" />
+              <p class="sr-only">Website Title</p>
+            </a>
+          </div>
+          <div
+            class="hidden md:flex md:items-center md:justify-center md:gap-5"
           >
-            Return to Main Page
-          </a>
+            <a
+              class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+              href="#home"
+            >
+              Home
+            </a>
+            <a
+              class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+              href="#about"
+            >
+              About Us
+            </a>
+            <a
+              class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+              href="#pricing"
+            >
+              Pricing
+            </a>
+          </div>
+          <div class="flex items-center justify-end gap-3">
+            <!-- Sign in копче (Логирање) -->
+            <a
+              id="signinBtn"
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex"
+              href="#"
+            >
+              Sign In
+            </a>
+
+            <!-- Login копче (Signup со Invite Code) -->
+            <a
+              id="signupBtn"
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              href="#"
+            >
+              Sign Up
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Signup Modal -->
+    <div
+      id="signupModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      style="z-index: 9999"
+      <!--
+      Dodadeno
+      z-index
+      za
+      da
+      se
+      prikazhuva
+      nad
+      site
+      elementi
+      --
+    >
+      >
+      <div class="bg-white rounded-xl p-6 shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4">Sign Up</h2>
+        <input
+          type="text"
+          placeholder="Email"
+          class="w-full p-2 border rounded mb-3"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          class="w-full p-2 border rounded mb-3"
+        />
+        <input
+          type="text"
+          id="inviteCode"
+          placeholder="Invite Code"
+          class="w-full p-2 border rounded mb-3"
+        />
+        <p id="errorMessage" class="text-red-500 text-sm hidden">
+          ❌ Access Denied! You must have an invite code.
+        </p>
+        <button
+          id="signupSubmit"
+          class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-500"
+        >
+          Sign Up
+        </button>
+        <button
+          id="closeModalBtn"
+          class="mt-3 w-full text-gray-500 hover:text-gray-700"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Login Form Modal -->
+    <div
+      id="loginForm"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      style="z-index: 9999"
+    >
+      <div class="bg-white rounded-xl p-6 shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4">Login</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          class="w-full p-2 border rounded mb-3"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          class="w-full p-2 border rounded mb-3"
+        />
+        <button
+          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-500"
+        >
+          Login
+        </button>
+        <button
+          id="closeLoginBtn"
+          class="mt-3 w-full text-gray-500 hover:text-gray-700"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div id="home" class="home h-screen w-screen bg-black">
+      <div class="mx-auto max-w-7xl pt-16 sm:pt-24">
+        <div class="space-y-8 lg:space-y-0 lg:grid lg:grid-cols-12 lg:gap-8">
+          <div
+            class="px-6 sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:flex lg:items-center lg:text-left"
+          >
+            <div class="space-y-8">
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <span
+                    class="rounded-full uppercase bg-pink-500 px-3 py-0.5 text-sm font-semibold leading-5 text-white"
+                  >
+                    Redpy Hack
+                  </span>
+                  <h1
+                    class="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
+                  >
+                    <span class="sm:text-6xl"> </span> Private cheat for CS2 ,
+                    Fortnite
+                    <span
+                      class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-600"
+                      >& many more!
+                    </span>
+                    <br />
+                    go beyond limits. dominate the Game.
+                  </h1>
+                </div>
+
+                <p
+                  class="text-base text-gray-200 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl"
+                >
+                  This powerful tool gives you the edge with advanced features,
+                  seamless performance, and undetectable security. Stay ahead of
+                  the competition and play like a pro.
+                </p>
+              </div>
+
+              <div class="border-t border-gray-700"></div>
+
+              <div class="flex space-x-4 items-center text-white">
+                <div class="flex items-center space-x-2">
+                  <div class="flex flex-shrink-0 -space-x-1">
+                    <img
+                      loading="lazy"
+                      width="400"
+                      height="400"
+                      decoding="async"
+                      class="h-6 w-6 max-w-none rounded-full ring-2 ring-white"
+                      style="color: transparent"
+                      src="https://randomuser.me/api/portraits/men/29.jpg"
+                    />
+                    <img
+                      loading="lazy"
+                      width="400"
+                      height="400"
+                      decoding="async"
+                      class="h-6 w-6 max-w-none rounded-full ring-2 ring-white"
+                      style="color: transparent"
+                      src="https://randomuser.me/api/portraits/men/90.jpg"
+                    />
+                    <img
+                      loading="lazy"
+                      width="100"
+                      height="100"
+                      decoding="async"
+                      class="h-6 w-6 max-w-none rounded-full ring-2 ring-white"
+                      style="color: transparent"
+                      src="https://randomuser.me/api/portraits/men/60.jpg"
+                    />
+                    <img
+                      loading="lazy"
+                      width="200"
+                      height="200"
+                      decoding="async"
+                      class="h-6 w-6 max-w-none rounded-full ring-2 ring-white"
+                      style="color: transparent"
+                      src="https://randomuser.me/api/portraits/men/5.jpg"
+                    />
+                  </div>
+
+                  <span class="flex-shrink-0 text-xs font-medium leading-5"
+                    >+15</span
+                  >
+                </div>
+
+                <div class="h-4 border-l border-gray-700"></div>
+
+                <div class="flex items-center">
+                  <svg
+                    class="h-4 w-4 fill-current text-yellow-500"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+                    ></path>
+                  </svg>
+                  <svg
+                    class="h-4 w-4 fill-current text-yellow-500"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+                    ></path>
+                  </svg>
+                  <svg
+                    class="h-4 w-4 fill-current text-yellow-500"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+                    ></path>
+                  </svg>
+                  <svg
+                    class="h-4 w-4 fill-current text-yellow-500"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+                    ></path>
+                  </svg>
+                  <svg
+                    class="h-4 w-4 fill-current text-yellow-500"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="h-4 border-l border-gray-700"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center w-full col-span-6">
+            <div
+              class="px-6 h-96 lg:h-100% w-full max-w-2xl col-span-6 flex items-center mx-auto"
+            >
+              <div style="width: 100%; height: 100%">
+                <div style="width: 100%; height: 100%">
+                  <script
+                    src="https://fast.wistia.com/player.js"
+                    async
+                  ></script>
+                  <script
+                    src="https://fast.wistia.com/embed/7h391uqdsp.js"
+                    async
+                    type="module"
+                  ></script>
+                  <style>
+                    wistia-player[media-id="7h391uqdsp"]:not(:defined) {
+                      background: center / contain no-repeat
+                        url("https://fast.wistia.com/embed/medias/7h391uqdsp/swatch");
+                      display: block;
+                      filter: blur(5px);
+                      padding-top: 75%;
+                    }
+                  </style>
+                  <wistia-player
+                    media-id="7h391uqdsp"
+                    aspect="1.3333333333333333"
+                  ></wistia-player>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <script src="next.js"></script>
+    <section
+      class="bg-black text-white py-16 px-4 md:px-10 lg:px-20"
+      id="about"
+    >
+      <div
+        class="max-w-screen-xl mx-auto flex flex-col md:flex-row items-center"
+      >
+        <!-- Левиот дел со текст -->
+        <div class="md:w-1/2 text-center md:text-left">
+          <h2 class="text-3xl md:text-4xl font-semibold mb-4">
+            About Redpy Hacks
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 mb-8">
+            Redpy Hacks brings you the best gaming experience with our exclusive
+            cheats and hacks. Our cheats are designed for Counter-Strike 2 (CS2)
+            and come with full protection against VAC and trust factor drops.
+            With our cheats, you can elevate your gameplay and stay ahead of the
+            competition.
+          </p>
+          <p class="text-lg md:text-xl text-gray-300 mb-8">
+            Our cheats offer exclusive features such as skin changers, grenade
+            helpers, and movement recorders, which will be added soon to the
+            XONE Internal version. We strive to provide a smooth and protected
+            gaming experience for all our users.
+          </p>
+          <p class="text-lg md:text-xl text-gray-300">
+            Join us today and experience the world of enhanced gaming with Redpy
+            Hacks.
+          </p>
+        </div>
+
+        <!-- Десен дел со слика -->
+        <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+          <img
+            src="media/ct.png"
+            alt="Redpy Hacks"
+            class="max-w-xs md:max-w-md"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-black text-white py-10 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2
+          class="text-4xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 text-center"
+        >
+          How Redpy Works
+        </h2>
+        <p class="text-lg mb-6">
+          Redpy is a premium game cheat that enhances your skills and helps you
+          dominate the battlefield. With advanced features and maximum
+          protection, Redpy is perfect for players who want to stand out and
+          secure victory in every duel.
+        </p>
+
+        <div class="flex justify-center space-x-8 text-xl">
+          <div class="flex items-center">
+            <span class="text-green-500 mr-2">✔️</span>
+            <span class="font-semibold">100% Protected from VAC</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-green-500 mr-2">✔️</span>
+            <span class="font-semibold">Easy and Quick Setup</span>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <p class="text-lg">
+            Experience the power of Redpy with features that give you a
+            competitive edge:
+          </p>
+          <ul class="list-disc list-inside text-left mt-4 text-lg text-center">
+            <li>RCS (Recoil Control System): Easily control weapon recoil.</li>
+            <li>
+              Triggerbot: Automatically shoots when your crosshair is on an
+              enemy.
+            </li>
+            <li>
+              Wallhack: See enemies through walls for a strategic advantage.
+            </li>
+            <li>Aimbot: Ensures perfect aim on enemies with no effort.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+
+    <div id="pricing" class="h-screen w-screen bg-black p-10">
+      <h2
+        class="text-4xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 text-center"
+      >
+        Pricing
+      </h2>
+      <div
+        class="flex flex-wrap items-center justify-center max-w-4xl mx-auto gap-4 sm:gap-0"
+      >
+        <div
+          class="w-full p-6 bg-black border border-gray-700 rounded-lg sm:w-1/2 bg-opacity-20 sm:rounded-r-none sm:p-8"
+        >
+          <div class="mb-6">
+            <h3
+              class="text-2xl font-semibold jakarta text-gray-100 sm:text-4xl"
+            >
+              Redpy One
+            </h3>
+          </div>
+          <div class="mb-4 space-x-2">
+            <span class="text-4xl font-bold text-gray-100">$10</span>
+          </div>
+          <ul class="mb-6 space-y-2 text-gray-300">
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class=""
+                >1. Wallhack: Activating wallhack allows you to see enemies
+                through walls.
+              </span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="">2.Aimbot: Automatically aims at enemies</span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class=""
+                >3. Radar Hack: Updates the player's radar and shows the exact
+                location of opponents.</span
+              >
+            </li>
+          </ul>
+          <a
+            href="buy_now.html"
+            class="block px-8 py-3 text-sm font-semibold text-center text-gray-100 transition duration-100 bg-white rounded-lg outline-none bg-opacity-10 hover:bg-opacity-20 md:text-base"
+            >Buy Now</a
+          >
+        </div>
+
+        <div
+          class="w-full p-6 rounded-lg shadow-xl sm:w-1/2 bg-gradient-to-br from-blue-600 to-purple-600 sm:p-8"
+        >
+          <div
+            class="flex flex-col items-start justify-between gap-4 mb-6 lg:flex-row"
+          >
+            <div>
+              <h3 class="text-2xl font-semibold text-white jakarta sm:text-4xl">
+                Pro Plan
+              </h3>
+            </div>
+            <span
+              class="order-first inline-block px-3 py-1 text-xs font-semibold tracking-wider text-white uppercase bg-black rounded-full lg:order-none bg-opacity-20"
+              >Redpy Pro</span
+            >
+          </div>
+          <div class="mb-4 space-x-2">
+            <span class="text-4xl font-bold text-white">$20/yr</span>
+            <span class="text-2xl text-indigo-100 line-through">$35/yr</span>
+          </div>
+          <ul class="mb-6 space-y-2 text-indigo-100">
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="">
+                1. RCS (Recoil Control System): Eliminates weapon recoil, making
+                it easier to control spray and providing an advantage in
+                firefights.
+              </span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="">
+                2. Triggerbot: Automatically shoots when the crosshair is on an
+                enemy, providing an advantage in duels.
+              </span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                  class=""
+                ></path>
+              </svg>
+              <span class="">Wallhack, Aimbot & Radarhack: INCLUDED</span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class=""
+                >Priority Support - Get Support from our team 24/7.</span
+              >
+            </li>
+          </ul>
+          <a
+            href="buy_now.html"
+            class="block px-8 py-3 text-sm font-semibold text-center text-white transition duration-100 bg-white rounded-lg outline-none bg-opacity-20 hover:bg-opacity-30 md:text-base"
+            >Buy Now</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+
+    <section>
+      <div class="flex h-screen items-center bg-black justify-center">
+        <div class="mx-auto w-full max-w-2xl px-2 mt-4" x-data="faq">
+          <h2
+            class="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 text-center"
+          >
+            Frequently Asked Questions(FAQ)
+          </h2>
+
+          <!-- FAQ Item 1 -->
+          <div class="mb-2 rounded-lg border bg-white">
+            <button
+              @click="toggle(1)"
+              class="flex w-full items-center justify-between px-6 py-4 text-left focus:outline-none"
+            >
+              <span class="text-lg font-semibold">Is Redpy safe to use?</span>
+              <span x-text="isOpen(1) ? '−' : '+'"></span>
+            </button>
+            <div
+              x-show="isOpen(1)"
+              x-transition:enter="transition ease-out duration-200"
+              x-transition:enter-start="opacity-0 transform -translate-y-2"
+              x-transition:enter-end="opacity-100 transform translate-y-0"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="opacity-100 transform translate-y-0"
+              x-transition:leave-end="opacity-0 transform -translate-y-2"
+              class="px-6 pb-4"
+            >
+              <p class="text-gray-600">
+                Yes! Redpy is 100% protected from VAC (Valve Anti-Cheat) and
+                other major anti-cheat systems. Our cheat is designed with
+                maximum security, ensuring that you can enjoy your gaming
+                experience without any worries about bans or detection.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div data-aos="fade-up" class="mb-2 rounded-lg border bg-white">
+            <button
+              @click="toggle(2)"
+              class="flex w-full items-center justify-between px-6 py-4 text-left focus:outline-none"
+            >
+              <span class="text-lg font-semibold"
+                >What features come with Redpy?</span
+              >
+              <span x-text="isOpen(2) ? '−' : '+'"></span>
+            </button>
+            <div
+              x-show="isOpen(2)"
+              x-transition:enter="transition ease-out duration-200"
+              x-transition:enter-start="opacity-0 transform -translate-y-2"
+              x-transition:enter-end="opacity-100 transform translate-y-0"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="opacity-100 transform translate-y-0"
+              x-transition:leave-end="opacity-0 transform -translate-y-2"
+              class="px-6 pb-4"
+            >
+              <p class="text-gray-600">
+                We offer a satisfaction guarantee for our customers. If you are
+                not happy with your Redpy experience, please contact our support
+                team within the first 7 days of purchase, and we will work with
+                you to resolve the issue or process a refund.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="mb-2 rounded-lg border bg-white">
+            <button
+              @click="toggle(3)"
+              class="flex w-full items-center justify-between px-6 py-4 text-left focus:outline-none"
+            >
+              <span class="text-lg font-semibold"
+                >Will I get a refund if I’m not satisfied with Redpy?</span
+              >
+              <span x-text="isOpen(3) ? '−' : '+'"></span>
+            </button>
+            <div
+              x-show="isOpen(3)"
+              x-transition:enter="transition ease-out duration-200"
+              x-transition:enter-start="opacity-0 transform -translate-y-2"
+              x-transition:enter-end="opacity-100 transform translate-y-0"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="opacity-100 transform translate-y-0"
+              x-transition:leave-end="opacity-0 transform -translate-y-2"
+              class="px-6 pb-4"
+            >
+              <p class="text-gray-600">
+                You can use Tailwind CSS for styling and Alpine.js for
+                interactivity. They work seamlessly together to create
+                lightweight, dynamic components.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+
+    <section class="bg-black text-white py-4">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2025 All Rights Reserved | Redpy</p>
+        <div class="mt-4">
+          <p>Accepted Payment:</p>
+          <div class="flex justify-center gap-6 mt-2">
+            <!-- Litecoin Logo -->
+            <img
+              src="https://cryptologos.cc/logos/litecoin-ltc-logo.png"
+              alt="Litecoin"
+              class="h-8"
+            />
+            <!-- USDT Logo -->
+            <img
+              src="https://cryptologos.cc/logos/tether-usdt-logo.png"
+              alt="USDT"
+              class="h-8"
+            />
+            <!-- PayPal Logo -->
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+              alt="PayPal"
+              class="h-8"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <script src="index.js"></script>
   </body>
 </html>
