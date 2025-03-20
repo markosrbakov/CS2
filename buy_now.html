@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redpy Payment System</title>
+    <link rel="icon" href="media/logo.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling"></script>
+    <style>
+      /* Hide the modal by default */
+      .modal {
+        display: none;
+      }
+
+      /* Hide the secure payment screen by default */
+      .secure-screen {
+        display: block;
+      }
+
+      /* Hide it after the payment button is clicked */
+      .secure-screen.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 flex justify-center items-center h-screen">
+    <!-- Secure Payment Screen -->
+    <div
+      id="secureScreen"
+      class="secure-screen bg-white p-6 rounded-lg shadow-lg text-center"
+    >
+      <h1 class="text-3xl font-bold mb-4">Secure Payment</h1>
+      <p class="text-lg">
+        Your payment is secure and processed with Crypto USDT. Please click
+        below to proceed.
+      </p>
+      <button
+        id="proceedBtn"
+        class="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-full transition duration-200 hover:bg-blue-500 focus:outline-none"
+      >
+        Proceed to Payment
+      </button>
+    </div>
+
+    <!-- Main Container for Payment -->
+    <div
+      id="paymentContainer"
+      class="w-full max-w-xl p-6 bg-white rounded-lg shadow-lg hidden"
+    >
+      <h1 class="text-2xl font-bold text-center mb-4">Buy Now</h1>
+
+      <!-- Payment Information -->
+      <div class="text-center mb-6">
+        <p class="text-xl">Payment Method: Crypto USDT</p>
+        <p class="mt-2">
+          Please make your payment using USDT by scanning the QR Code below.
+        </p>
+      </div>
+
+      <!-- QR Code -->
+      <div id="qr-code" class="flex justify-center mb-6">
+        <!-- QR Code image will be shown here -->
+        <img src="media/qr_code.jpg" alt="QR Code" class="w-64 h-64" />
+      </div>
+      <div id="qr-code" class="justify-center mb-6 text-center">
+        <p>Network: Ethereum (ERC20)</p>
+        <p>Deposit Address:</p>
+        <input
+          type="text"
+          value="0xab68e8e964d9aa1031cd631d6778e482d4925ed4"
+          id="depositAddress"
+          readonly
+        />
+        <button onclick="copyAddress()">Copy</button>
+      </div>
+      <!-- Payment Button -->
+      <div class="text-center">
+        <button
+          id="payBtn"
+          class="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-full transition duration-200 hover:bg-blue-500 focus:outline-none"
+        >
+          I Paid
+        </button>
+      </div>
+    </div>
+    <!-- Modal for Payment in Process -->
+    <div
+      id="paymentModal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+      style="display: none"
+    >
+      <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-semibold text-center">Payment in Process</h2>
+        <div class="flex justify-center mt-4">
+          <div
+            class="animate-spin border-4 border-t-4 border-blue-500 border-solid rounded-full w-12 h-12"
+          ></div>
+        </div>
+        <p class="text-center mt-4">
+          Please wait while your payment is being processed.
+        </p>
+        <p class="text-center mt-4 text-sm text-red-600">
+          Do not close this window until the payment is complete.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const payBtn = document.getElementById("payBtn");
+      const paymentModal = document.getElementById("paymentModal");
+      const proceedBtn = document.getElementById("proceedBtn");
+      const secureScreen = document.getElementById("secureScreen");
+      const paymentContainer = document.getElementById("paymentContainer");
+
+      // Proceed to payment when the user clicks "Proceed to Payment"
+      proceedBtn.addEventListener("click", function () {
+        // Hide the secure screen and show the payment container
+        secureScreen.classList.add("hidden");
+        paymentContainer.classList.remove("hidden");
+      });
+
+      payBtn.addEventListener("click", function () {
+        // Show the modal when the user clicks "I Paid"
+        paymentModal.style.display = "flex";
+
+        // Hide the modal after 10 minutes (600,000ms) and show success message
+        setTimeout(function () {
+          paymentModal.style.display = "none";
+          alert("Payment Processed Successfully!"); // Simulate success after processing
+
+          // Redirect to next page after success
+          window.location.href = "next.html"; // Change the URL as needed
+        }, 600000); // 10 minutes in milliseconds
+      });
+      function copyAddress() {
+        var copyText = document.getElementById("depositAddress");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // За мобилни уреди
+        document.execCommand("copy");
+        alert("Copied: " + copyText.value);
+      }
+    </script>
+  </body>
+</html>
